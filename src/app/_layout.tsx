@@ -29,8 +29,8 @@ export default function RootLayout() {
         }}
       />
 
-<Tabs.Screen
-        name="detailsMovie"
+      <Tabs.Screen
+        name="details/[id]"
         options={{
           href: null,
         }}

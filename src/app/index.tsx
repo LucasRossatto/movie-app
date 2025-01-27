@@ -1,34 +1,45 @@
 import { useEffect, useState } from "react";
-import { ActivityIndicator, FlatList, Image, TouchableOpacity, StyleSheet, Text, View } from "react-native";
+import {
+  ActivityIndicator,
+  FlatList,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import { api } from "../services/api";
 import { logger } from "react-native-logs";
 import { Movie } from "../types/movieTypes";
-import Octicons from '@expo/vector-icons/Octicons';
-import { Link, usePathname } from "expo-router";
+import Octicons from "@expo/vector-icons/Octicons";
+import { Link } from "expo-router";
 import CardMovie from "../components/CardMovie";
+
 const log = logger.createLogger();
 
 export default function Index() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
+
   const loadMovies = async () => {
     try {
       setLoading(true);
       const response = await api.get("/movie/popular", {
-        params: {
-          page,
-        }
+        params: { page },
       });
-      log.info(response.data.results);
-      setMovies(response.data.results);
-      setPage(page + 1);
-      setLoading(false);
+      log.info("Filmes carregados com sucesso");
+      setMovies((prevMovies) => [...prevMovies, ...response.data.results]);
+      setPage((prevPage) => prevPage + 1);
     } catch (error) {
       log.error("Erro ao carregar filmes", error);
+    } finally {
+      setLoading(false);
     }
   };
 
+  const renderItem = ({ item }: { item: Movie }) => (
+      <CardMovie data={item} />
+    
+  );
 
   useEffect(() => {
     loadMovies();
@@ -36,22 +47,24 @@ export default function Index() {
 
   return (
     <View style={styles.body}>
-      <Link href={"/search"} asChild>
-        <Octicons name="search" size={24} color="white" />
-      </Link>
+      <View style={styles.searchIcon}>
+        <Link href="/search" asChild>
+          <Octicons name="search" size={24} color="white" />
+        </Link>
+      </View>
 
-      <Text style={styles.categoryLabel} >Populares</Text>
+      <Text style={styles.categoryLabel}>Populares</Text>
       <FlatList
         horizontal
         data={movies}
         showsHorizontalScrollIndicator={false}
-        renderItem={({ item }) => ( <CardMovie data={item} />)}
+        renderItem={renderItem}
         keyExtractor={(item) => item.id.toString()}
-        onEndReached={() => loadMovies()}
+        onEndReached={loadMovies}
+        onEndReachedThreshold={0.5}
       />
 
-
-      {loading && <ActivityIndicator size={50} color={"#0296e5"} />}
+      {loading && <ActivityIndicator size={50} color="#0296e5" />}
     </View>
   );
 }
@@ -62,22 +75,14 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 30,
   },
-  categoryLabel:{
-    color:"#fff",
-    fontSize:22,
-    fontWeight:"bold",
+  searchIcon: {
+    alignItems: "flex-end",
+    marginBottom: 20,
   },
-  posterPath: {
-    width: 170,
-    height: 255,
-    marginRight: 10,
-    marginVertical: 20,
-  },
-  card: {
-  },
-  cardTitle: {
-    fontSize: 14,
+  categoryLabel: {
     color: "#fff",
-    width: 160,
+    fontSize: 22,
+    fontWeight: "bold",
+    marginBottom: 10,
   },
 });
