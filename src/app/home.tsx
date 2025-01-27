@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { FlatList, Image, StyleSheet, Text, View } from "react-native";
+import { ActivityIndicator, FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { api } from "../services/api";
 import { logger } from "react-native-logs";
 
@@ -13,14 +13,23 @@ interface MoviesProps {
 
 export default function Index() {
   const [movies, setMovies] = useState<MoviesProps[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [page, setPage] = useState(1);
 
   const loadMovies = async () => {
     try {
-      const response = await api.get("/movie/popular");
+      setLoading(true);
+      const response = await api.get("/movie/popular", {
+        params: {
+          page,
+        }
+      });
       log.info(response.data);
       setMovies(response.data.results);
+      setPage(page + 1);
+      setLoading(false);
     } catch (error) {
-      log.error("Erro ao carregar filmes", error); 
+      log.error("Erro ao carregar filmes", error);
     }
   };
 
@@ -28,7 +37,7 @@ export default function Index() {
     loadMovies();
   }, []);
 
- 
+
 
   return (
     <View style={styles.body}>
@@ -37,15 +46,20 @@ export default function Index() {
         horizontal
         data={movies}
         renderItem={({ item }) => (
-          <Image
-            style={styles.posterPath}
-            source={{
-              uri: `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
-            }}
-          />
+          <View>
+            <Image
+              style={styles.posterPath}
+              source={{
+                uri: `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
+              }}
+            />
+            <Text style={{fontSize:14,color:"#fff", paddingVertical:10}}>{item.title}</Text>
+          </View>
         )}
         keyExtractor={(item) => item.id.toString()}
+        onEndReached={() => loadMovies()}
       />
+      {loading && <ActivityIndicator size={50} color={"#0296e5"} />}
     </View>
   );
 }
@@ -57,8 +71,8 @@ const styles = StyleSheet.create({
     padding: 30,
   },
   posterPath: {
-    width: 144,
-    height: 210,
-    marginRight: 10, 
+    width: 170,
+    height: 255,
+    marginRight: 10,
   },
 });
