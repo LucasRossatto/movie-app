@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TextInput, View } from "react-native";
-import { api } from "../services/api";
+import { api } from "@/src/services/api";
 import { logger } from "react-native-logs";
-import { Movie } from "../types/movieTypes";
+import { Movie } from "@/src/types/movieTypes";
+import SearchCard from "../components/SearchCard";
 
 var log = logger.createLogger();
 
@@ -65,31 +66,33 @@ export default function Index() {
 
   const movieData = search.length > 2 ? resultMovies : movies;
 
+  const renderItem = ({ item }: { item: Movie }) => (
+    <SearchCard data={item} />
+  );
+
   useEffect(() => {
   }, []);
 
+
   return (
     <View style={styles.body}>
-      <TextInput placeholder="Buscar" placeholderTextColor={"#fff"} onChangeText={handleSearch} value={search} />
+      <TextInput
+        placeholder="Buscar"
+        placeholderTextColor={"#fff"}
+        selectionColor={"#F47521"}
+        onChangeText={handleSearch}
+        value={search}
+        style={styles.input}
+      />
       {noResult && (
         <Text>Nenhum resultado encontrado para "{search}"</Text>
       )}
       <FlatList
-        horizontal
-        data={movieData}
-        renderItem={({ item }) => (
-          <View>
-            <Image
-              style={styles.posterPath}
-              source={{
-                uri: `https://image.tmdb.org/t/p/w500/${item.poster_path}`,
-              }}
-            />
-            <Text style={{ fontSize: 14, color: "#fff", paddingVertical: 10 }}>{item.title}</Text>
-          </View>
-        )}
-        keyExtractor={(item) => item.id.toString()}
-        onEndReached={() => !loading && loadMovies()} // Evita chamadas de loadMovies enquanto já está carregando
+        style={styles.flatilist}
+        data={resultMovies}
+        renderItem={renderItem}
+        onEndReached={loadMovies}
+        onEndReachedThreshold={0.5}
       />
       {loading && <ActivityIndicator size={50} color={"#0296e5"} />}
     </View>
@@ -100,11 +103,18 @@ const styles = StyleSheet.create({
   body: {
     backgroundColor: "#1B1E25",
     flex: 1,
-    padding: 30,
+  },
+  flatilist: {
+    marginHorizontal: 30,
   },
   posterPath: {
     width: 170,
     height: 255,
     marginRight: 10,
+  },
+  input: {
+    backgroundColor: "#18191E",
+    height: 84,
+    paddingHorizontal: 20
   },
 });

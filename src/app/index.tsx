@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
+  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -38,7 +39,6 @@ export default function Index() {
 
   const renderItem = ({ item }: { item: Movie }) => (
       <CardMovie data={item} />
-    
   );
 
   useEffect(() => {
@@ -46,14 +46,15 @@ export default function Index() {
   }, []);
 
   return (
-    <View style={styles.body}>
-      <View style={styles.searchIcon}>
+    <ScrollView style={styles.body}>
+      <View style={styles.header}>
+        <Text style={styles.title}>MyMovieList</Text>
         <Link href="/search" asChild>
           <Octicons name="search" size={24} color="white" />
         </Link>
       </View>
 
-      <Text style={styles.categoryLabel}>Populares</Text>
+      <Text style={styles.categoryLabel}>Mais</Text>
       <FlatList
         horizontal
         data={movies}
@@ -65,7 +66,7 @@ export default function Index() {
       />
 
       {loading && <ActivityIndicator size={50} color="#0296e5" />}
-    </View>
+    </ScrollView>
   );
 }
 
@@ -75,14 +76,21 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 30,
   },
-  searchIcon: {
-    alignItems: "flex-end",
-    marginBottom: 20,
+  header: {
+    justifyContent:"space-between",
+    flexDirection:"row",
+    alignItems:"center",
+    marginBottom:30,
   },
   categoryLabel: {
     color: "#fff",
     fontSize: 22,
     fontWeight: "bold",
     marginBottom: 10,
+  },
+  title:{
+    fontSize:22,
+    fontWeight:"bold",
+    color:"#F47521",
   },
 });

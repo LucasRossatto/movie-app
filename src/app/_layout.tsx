@@ -1,5 +1,5 @@
 import { Tabs } from "expo-router";
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { StyleSheet, Text, View } from "react-native";
 
 
@@ -10,13 +10,18 @@ export default function RootLayout() {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarActiveTintColor: "#F47521",
-        tabBarInactiveTintColor: "#757575"
+        tabBarInactiveTintColor: "#636882",
+        tabBarStyle: {
+          backgroundColor: '#18191E',
+          borderTopWidth: 0,
+        }
+       
       }}
     >
       <Tabs.Screen name="index" options={{
         tabBarIcon: ({ color }) => (
           <View style={styles.views}>
-            <FontAwesome6 name="house" size={24} color={color} />
+            <MaterialCommunityIcons name="home-outline" size={24} color={color} />
             <Text style={{ color: color, fontSize: 10, fontWeight: "bold" }}>home</Text>
           </View>
         ),
@@ -45,5 +50,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: 80,
+    marginTop:10,
   }
 });
