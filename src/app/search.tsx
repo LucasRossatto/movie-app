@@ -6,8 +6,6 @@ import { Movie } from "../types/movieTypes";
 
 var log = logger.createLogger();
 
-
-
 export default function Index() {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [resultMovies, setResultMovies] = useState<Movie[]>([]);
@@ -25,7 +23,7 @@ export default function Index() {
         }
       });
       log.info(response.data);
-      setMovies(prevMovies => [...prevMovies, ...response.data.results]); // Mantém filmes anteriores
+      setMovies(prevMovies => [...prevMovies, ...response.data.results]);
       setPage(page + 1);
       setLoading(false);
     } catch (error) {
