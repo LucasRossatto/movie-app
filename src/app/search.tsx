@@ -2,18 +2,15 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, TextInput, View } from "react-native";
 import { api } from "../services/api";
 import { logger } from "react-native-logs";
+import { Movie } from "../types/movieTypes";
 
 var log = logger.createLogger();
 
-interface MoviesProps {
-  id: number;
-  title: string;
-  poster_path: string;
-}
+
 
 export default function Index() {
-  const [movies, setMovies] = useState<MoviesProps[]>([]);
-  const [resultMovies, setResultMovies] = useState<MoviesProps[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [resultMovies, setResultMovies] = useState<Movie[]>([]);
   const [noResult, setNoResult] = useState(false);
   const [loading, setLoading] = useState(false);
   const [search, setSearch] = useState("");

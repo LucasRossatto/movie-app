@@ -2,17 +2,13 @@ import { useEffect, useState } from "react";
 import { ActivityIndicator, FlatList, Image, StyleSheet, Text, View } from "react-native";
 import { api } from "../services/api";
 import { logger } from "react-native-logs";
+import { Movie } from "../types/movieTypes"
 
 var log = logger.createLogger();
 
-interface MoviesProps {
-  id: number;
-  title: string;
-  poster_path: string;
-}
 
 export default function Index() {
-  const [movies, setMovies] = useState<MoviesProps[]>([]);
+  const [movies, setMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
 
