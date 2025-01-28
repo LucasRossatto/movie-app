@@ -13,6 +13,7 @@ import { Movie } from "../types/movieTypes";
 import Octicons from "@expo/vector-icons/Octicons";
 import { Link } from "expo-router";
 import CardMovie from "../components/CardMovie";
+import CardHorizontalMovie from "../components/CardHorizontalMovie";
 
 const log = logger.createLogger();
 
@@ -37,9 +38,12 @@ export default function Index() {
     }
   };
 
-  const renderItem = ({ item }: { item: Movie }) => (
+  const renderCardVertical = ({ item }: { item: Movie }) => (
       <CardMovie data={item} />
   );
+  const renderCardHorizontal = ({ item }: { item: Movie }) => (
+    <CardHorizontalMovie data={item} />
+);
 
   useEffect(() => {
     loadMovies();
@@ -54,12 +58,22 @@ export default function Index() {
         </Link>
       </View>
 
-      <Text style={styles.categoryLabel}>Mais</Text>
+      <Text style={styles.categoryLabel}>Mais Populares</Text>
       <FlatList
         horizontal
         data={movies}
         showsHorizontalScrollIndicator={false}
-        renderItem={renderItem}
+        renderItem={renderCardVertical}
+        keyExtractor={(item) => item.id.toString()}
+        onEndReached={loadMovies}
+        onEndReachedThreshold={0.5}
+      />
+
+      <FlatList
+        horizontal
+        data={movies}
+        showsHorizontalScrollIndicator={false}
+        renderItem={renderCardHorizontal}
         keyExtractor={(item) => item.id.toString()}
         onEndReached={loadMovies}
         onEndReachedThreshold={0.5}

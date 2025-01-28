@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Link } from 'expo-router';
+import { logger } from "react-native-logs";
+
 import { Props } from "../types/movieTypes";
+const log = logger.createLogger();
+
 
 export default function SearchCard({ data }: Props) {
 
@@ -20,6 +24,8 @@ export default function SearchCard({ data }: Props) {
                     <View style={styles.movieInfosContainer}>
                         <Text style={styles.movieTitle}>{data.title}</Text>
                         <Text style={styles.cardTitle}>{data.vote_average}/10</Text>
+                        
+                      
                     </View>
                 </View>
             </TouchableOpacity>
@@ -37,6 +43,7 @@ const styles = StyleSheet.create({
     card: {
         flexDirection: "row",
         alignItems: "center",
+
     },
     cardTitle: {
         fontSize: 14,
@@ -44,7 +51,9 @@ const styles = StyleSheet.create({
         width: 160,
     },
     movieInfosContainer: {
-
+        width:100,
+        backgroundColor:"#f2f2f2",
+        flex:1
     },
     movieTitle: {
         fontSize: 18,

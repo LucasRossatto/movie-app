@@ -8,7 +8,7 @@ export interface Movie {
   genres: Array<{ id: number; name: string }>;  
   runtime: number;  
   original_language: string; 
-  backdrop_path: string;  
+  backdrop_path: string; 
 }
 
 
