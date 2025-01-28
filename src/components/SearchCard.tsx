@@ -23,9 +23,7 @@ export default function SearchCard({ data }: Props) {
                     />
                     <View style={styles.movieInfosContainer}>
                         <Text style={styles.movieTitle}>{data.title}</Text>
-                        <Text style={styles.cardTitle}>{data.vote_average}/10</Text>
-                        
-                      
+                        <Text style={styles.movieInfo}>{data.vote_average}/10</Text>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -37,23 +35,22 @@ const styles = StyleSheet.create({
     posterPath: {
         width: 126,
         height: 194,
-        marginRight: 10,
-        marginVertical: 20,
     },
     card: {
         flexDirection: "row",
-        alignItems: "center",
-
+        marginRight: 10,
+        marginVertical: 20,
+        gap: 20,
     },
-    cardTitle: {
+    movieInfo: {
         fontSize: 14,
-        color: "#fff",
+        color: "#A0A0A0",
         width: 160,
     },
     movieInfosContainer: {
-        width:100,
-        backgroundColor:"#f2f2f2",
-        flex:1
+        width: 100,
+        flex: 1,
+        gap: 20,
     },
     movieTitle: {
         fontSize: 18,

@@ -1,3 +1,5 @@
+import { Double } from "react-native/Libraries/Types/CodegenTypes";
+
 export interface Movie {
   id: number;
   title: string;
@@ -8,7 +10,8 @@ export interface Movie {
   genres: Array<{ id: number; name: string }>;  
   runtime: number;  
   original_language: string; 
-  backdrop_path: string; 
+  backdrop_path: string;
+  popularity: Double;
 }
 
 

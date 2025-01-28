@@ -102,7 +102,7 @@ export default function Index() {
 
 const styles = StyleSheet.create({
   body: {
-    backgroundColor: "#1B1E25",
+    backgroundColor: "#000000",
     flex: 1,
     paddingHorizontal: 30,
   },
