@@ -17,10 +17,17 @@ export default function CardMovie({ data }: Props) {
                         }}
                     />
                     <Text style={styles.cardTitle}>{data.title}</Text>
-                    <Text style={styles.cardInfo}>
-                        {Number(data.vote_average).toFixed(1)}/10  <FontAwesome name="star" size={12} color="#dadada" />  ({Number(data.popularity).toFixed(1)}K) <MaterialCommunityIcons name="menu-down" size={18} color="#dadada" />
-                    </Text>
+                    <View style={styles.cardInfo}>
+                        <View style={styles.infoItem}>
+                            <FontAwesome name="star" size={10} color="#F47521" />
+                            <Text style={styles.infoText}>{Number(data.vote_average).toFixed(1)}/10</Text>
+                        </View>
 
+                        <View style={styles.infoItem}>
+                            <MaterialCommunityIcons name="eye-outline" size={12} color="#F47521" />
+                            <Text style={styles.infoText}>{Number(data.popularity).toFixed(1)}K</Text>
+                        </View>
+                    </View>
                 </View>
             </TouchableOpacity>
         </Link>
@@ -42,12 +49,22 @@ const styles = StyleSheet.create({
         width: 160,
         justifyContent: "center",
         fontWeight: "bold",
-        marginTop: 10
+        marginTop: 10,
     },
     cardInfo: {
-        fontSize: 12,
-        color: "#dadada",
+        flexDirection: "row",
+        gap:10,
+        alignItems: "center",
+        marginTop: 5,
         width: 160,
-        justifyContent: "center",
+    },
+    infoItem: {
+        flexDirection: "row",
+        alignItems: "center",
+    },
+    infoText: {
+        fontSize: 10,
+        color: "#dadada",
+        marginLeft: 5,
     },
 });

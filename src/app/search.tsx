@@ -93,7 +93,7 @@ export default function Index() {
         onEndReached={loadMovies}
         onEndReachedThreshold={0.5}
       />
-      {loading && <ActivityIndicator size={50} color={"#0296e5"} />}
+      {loading && <ActivityIndicator size={60} color={"#F47521"} />}
     </View>
   );
 }

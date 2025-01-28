@@ -54,63 +54,68 @@ export default function Index() {
   }, []);
 
   return (
-    <ScrollView style={styles.body}>
+    <ScrollView style={{ backgroundColor: "#000000" }}>
       <View style={styles.header}>
         <Text style={styles.title}>MyMovieList</Text>
         <Link href="/search" asChild>
           <Octicons name="search" size={24} color="white" />
         </Link>
       </View>
+      <View style={styles.body}>
+        <Text style={styles.categoryLabel}>Mais Populares</Text>
+        <FlatList
+          horizontal
+          data={popularMovies}
+          showsHorizontalScrollIndicator={false}
+          renderItem={renderCardVertical}
+          keyExtractor={(item) => item.id.toString()}
+          onEndReached={() => loadMovies("/movie/popular", setPopularMovies)}
+          onEndReachedThreshold={0.5}
+        />
 
-      <Text style={styles.categoryLabel}>Mais Populares</Text>
-      <FlatList
-        horizontal
-        data={popularMovies}
-        showsHorizontalScrollIndicator={false}
-        renderItem={renderCardVertical}
-        keyExtractor={(item) => item.id.toString()}
-        onEndReached={() => loadMovies("/movie/popular", setPopularMovies)}
-        onEndReachedThreshold={0.5}
-      />
+        <Text style={styles.categoryLabel}>Mais Bem Avaliados</Text>
+        <FlatList
+          horizontal
+          data={topRatedMovies}
+          showsHorizontalScrollIndicator={false}
+          renderItem={renderCardHorizontal}
+          keyExtractor={(item) => item.id.toString()}
+          onEndReached={() => loadMovies("/movie/top_rated", setTopRatedMovies)}
+          onEndReachedThreshold={0.5}
+        />
 
-      <Text style={styles.categoryLabel}>Mais Bem Avaliados</Text>
-      <FlatList
-        horizontal
-        data={topRatedMovies}
-        showsHorizontalScrollIndicator={false}
-        renderItem={renderCardHorizontal}
-        keyExtractor={(item) => item.id.toString()}
-        onEndReached={() => loadMovies("/movie/top_rated", setTopRatedMovies)}
-        onEndReachedThreshold={0.5}
-      />
+        <Text style={styles.categoryLabel}>Próximos Lançamentos</Text>
+        <FlatList
+          horizontal
+          data={upcomingMovies}
+          showsHorizontalScrollIndicator={false}
+          renderItem={renderCardVertical}
+          keyExtractor={(item) => item.id.toString()}
+          onEndReached={() => loadMovies("/movie/upcoming", setUpcomingMovies)}
+          onEndReachedThreshold={0.5}
+        />
 
-      <Text style={styles.categoryLabel}>Próximos Lançamentos</Text>
-      <FlatList
-        horizontal
-        data={upcomingMovies}
-        showsHorizontalScrollIndicator={false}
-        renderItem={renderCardVertical}
-        keyExtractor={(item) => item.id.toString()}
-        onEndReached={() => loadMovies("/movie/upcoming", setUpcomingMovies)}
-        onEndReachedThreshold={0.5}
-      />
-
-      {loading && <ActivityIndicator size={50} color="#0296e5" />}
+        {loading && <ActivityIndicator size={60} color="#F47521" />}
+      </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  body: {
-    backgroundColor: "#000000",
-    flex: 1,
-    paddingHorizontal: 30,
-  },
   header: {
     justifyContent: "space-between",
     flexDirection: "row",
     alignItems: "center",
-    marginVertical: 30,
+    paddingVertical: 18,
+    paddingHorizontal: 30,
+    backgroundColor: "#18191E",
+    flex: 1
+  },
+  body: {
+    backgroundColor: "#000000",
+    flex: 1,
+    paddingHorizontal: 30,
+    marginTop: 20,
   },
   categoryLabel: {
     color: "#fff",

@@ -2,7 +2,6 @@ import { Tabs } from "expo-router";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { StyleSheet, Text, View } from "react-native";
 
-
 export default function RootLayout() {
   return (
     <Tabs
@@ -24,7 +23,8 @@ export default function RootLayout() {
             <Text style={{ color: color, fontSize: 10, fontWeight: "bold" }}>home</Text>
           </View>
         ),
-      }} />
+      }}
+    />
 
       <Tabs.Screen
         name="search"
@@ -39,7 +39,6 @@ export default function RootLayout() {
           href: null,
         }}
       />
-
     </Tabs>
   )
 }
@@ -49,6 +48,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     width: 80,
-    marginTop:10,
+    marginTop: 10,
   }
 });

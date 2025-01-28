@@ -2,14 +2,11 @@ import React, { useEffect } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Link } from 'expo-router';
 import { logger } from "react-native-logs";
-
 import { Props } from "../types/movieTypes";
 const log = logger.createLogger();
 
 
 export default function SearchCard({ data }: Props) {
-
-
 
     return (
         <Link href={`/details/${data.id}`} asChild>
@@ -43,14 +40,15 @@ const styles = StyleSheet.create({
         gap: 20,
     },
     movieInfo: {
-        fontSize: 14,
+        fontSize: 16,
         color: "#A0A0A0",
         width: 160,
     },
     movieInfosContainer: {
         width: 100,
         flex: 1,
-        gap: 20,
+        gap: 52,
+        justifyContent:"center"
     },
     movieTitle: {
         fontSize: 18,
