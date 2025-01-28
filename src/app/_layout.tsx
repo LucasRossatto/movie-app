@@ -15,7 +15,6 @@ export default function RootLayout() {
           backgroundColor: '#18191E',
           borderTopWidth: 0,
         }
-       
       }}
     >
       <Tabs.Screen name="index" options={{

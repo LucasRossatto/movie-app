@@ -18,18 +18,20 @@ import CardHorizontalMovie from "../components/CardHorizontalMovie";
 const log = logger.createLogger();
 
 export default function Index() {
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
+  const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]);
+  const [upcomingMovies, setUpcomingMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
 
-  const loadMovies = async () => {
+  const loadMovies = async (url: string, setData: React.Dispatch<React.SetStateAction<Movie[]>>) => {
     try {
       setLoading(true);
-      const response = await api.get("/movie/popular", {
+      const response = await api.get(url, {
         params: { page },
       });
       log.info("Filmes carregados com sucesso");
-      setMovies((prevMovies) => [...prevMovies, ...response.data.results]);
+      setData((prevMovies) => [...prevMovies, ...response.data.results]);
       setPage((prevPage) => prevPage + 1);
     } catch (error) {
       log.error("Erro ao carregar filmes", error);
@@ -39,14 +41,16 @@ export default function Index() {
   };
 
   const renderCardVertical = ({ item }: { item: Movie }) => (
-      <CardMovie data={item} />
+    <CardMovie data={item} />
   );
   const renderCardHorizontal = ({ item }: { item: Movie }) => (
     <CardHorizontalMovie data={item} />
-);
+  );
 
   useEffect(() => {
-    loadMovies();
+    loadMovies("/movie/popular", setPopularMovies);
+    loadMovies("/movie/top_rated", setTopRatedMovies);
+    loadMovies("/movie/upcoming", setUpcomingMovies);
   }, []);
 
   return (
@@ -61,21 +65,33 @@ export default function Index() {
       <Text style={styles.categoryLabel}>Mais Populares</Text>
       <FlatList
         horizontal
-        data={movies}
+        data={popularMovies}
         showsHorizontalScrollIndicator={false}
         renderItem={renderCardVertical}
         keyExtractor={(item) => item.id.toString()}
-        onEndReached={loadMovies}
+        onEndReached={() => loadMovies("/movie/popular", setPopularMovies)}
         onEndReachedThreshold={0.5}
       />
 
+      <Text style={styles.categoryLabel}>Mais Bem Avaliados</Text>
       <FlatList
         horizontal
-        data={movies}
+        data={topRatedMovies}
         showsHorizontalScrollIndicator={false}
         renderItem={renderCardHorizontal}
         keyExtractor={(item) => item.id.toString()}
-        onEndReached={loadMovies}
+        onEndReached={() => loadMovies("/movie/top_rated", setTopRatedMovies)}
+        onEndReachedThreshold={0.5}
+      />
+
+      <Text style={styles.categoryLabel}>Próximos Lançamentos</Text>
+      <FlatList
+        horizontal
+        data={upcomingMovies}
+        showsHorizontalScrollIndicator={false}
+        renderItem={renderCardVertical}
+        keyExtractor={(item) => item.id.toString()}
+        onEndReached={() => loadMovies("/movie/upcoming", setUpcomingMovies)}
         onEndReachedThreshold={0.5}
       />
 
@@ -88,13 +104,13 @@ const styles = StyleSheet.create({
   body: {
     backgroundColor: "#1B1E25",
     flex: 1,
-    padding: 30,
+    paddingHorizontal: 30,
   },
   header: {
-    justifyContent:"space-between",
-    flexDirection:"row",
-    alignItems:"center",
-    marginBottom:30,
+    justifyContent: "space-between",
+    flexDirection: "row",
+    alignItems: "center",
+    marginVertical: 30,
   },
   categoryLabel: {
     color: "#fff",
@@ -102,9 +118,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
   },
-  title:{
-    fontSize:22,
-    fontWeight:"bold",
-    color:"#F47521",
+  title: {
+    fontSize: 22,
+    fontWeight: "bold",
+    color: "#F47521",
   },
 });

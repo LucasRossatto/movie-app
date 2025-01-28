@@ -14,6 +14,8 @@ export default function CardHorizontalMovie({ data }: Props) {
                             uri: `https://image.tmdb.org/t/p/w500/${data.backdrop_path}`,
                         }}
                     />
+                    <Text style={styles.cardTitle}>{data.title}</Text>
+
                 </View>
             </TouchableOpacity>
         </Link>
@@ -25,7 +27,7 @@ const styles = StyleSheet.create({
         width: 260,
         height: 173,
         marginRight: 10,
-        marginVertical: 20,
+        marginVertical: 10,
     },
     card: {
     },
