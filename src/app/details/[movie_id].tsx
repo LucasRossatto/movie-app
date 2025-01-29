@@ -53,13 +53,14 @@ export default function TestID() {
     }
   };
 
-    const renderCardHorizontal = ({ item }: { item: Movie }) => <CardHorizontalMovie data={item} />;
-  
+  const renderCardHorizontal = ({ item }: { item: Movie }) => <CardHorizontalMovie data={item} />;
+
   useEffect(() => {
     if (movie_id) {
       loadMovieInfos();
       loadRecomendedMovies();
     }
+    setSeeMoreOverView(false);
   }, [movie_id]);
 
   return (
@@ -110,6 +111,7 @@ export default function TestID() {
                   </TouchableOpacity>
                 </View>
 
+                <Text style={styles.genreTitle}>Gêneros</Text>
                 {movie.genres && movie.genres.length > 0 && (
                   <View style={styles.genreListContainer}>
                     {movie.genres.map((genre) => (
@@ -121,7 +123,7 @@ export default function TestID() {
                 )}
               </View>
               <View style={styles.recomendedContainer}>
-              <Text style={styles.sectionTitle}>Recomendações</Text>
+                <Text style={styles.sectionTitle}>Recomendações</Text>
                 <FlatList
                   horizontal
                   data={recomendedMovies}
@@ -129,11 +131,11 @@ export default function TestID() {
                   renderItem={renderCardHorizontal}
                   keyExtractor={(item) => item.id.toString()}
                 />
-                </View>
+              </View>
             </View>
           )
         )}
-          
+
       </View>
     </ScrollView>
   );
@@ -209,19 +211,18 @@ const styles = StyleSheet.create({
   overviewText: {
     color: "#fff",
     fontSize: 16,
-    textAlign:"left",
+    textAlign: "left",
   },
   showMoreButton: {
     color: "#F47521",
     fontSize: 14,
     fontWeight: "bold",
     marginTop: 10,
-    textAlign:"left"
+    textAlign: "left"
   },
   genreListContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    marginTop: 10,
   },
   genreItem: {
     color: "#F47521",
@@ -233,16 +234,21 @@ const styles = StyleSheet.create({
     marginRight: 5,
     marginBottom: 5,
   },
+  genreTitle: {
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: "bold",
+    marginBottom:10,
+  },
   recomendedContainer: {
     flex: 1,
     paddingHorizontal: 30,
-    marginTop: 20,
   },
   sectionTitle: {
     color: "#fff",
     fontSize: 22,
     fontWeight: "bold",
     marginBottom: 10,
-    alignSelf:"flex-start"
+    alignSelf: "flex-start"
   },
 });
