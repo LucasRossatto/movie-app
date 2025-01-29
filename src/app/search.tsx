@@ -4,6 +4,7 @@ import { api } from "@/src/services/api";
 import { logger } from "react-native-logs";
 import { Movie } from "@/src/types/movieTypes";
 import SearchCard from "../components/SearchCard";
+import Octicons from "@expo/vector-icons/Octicons";
 
 var log = logger.createLogger();
 
@@ -82,6 +83,8 @@ export default function Index() {
             isFocused && { borderBottomColor: "#F47521", borderBottomWidth: 1.5 },
           ]}
         />
+        <Octicons name="search" size={24} color="white" />
+
       </View>
 
       {noResult && (
@@ -109,14 +112,19 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     backgroundColor: "#18191E",
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
     paddingVertical: 10,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
   },
   input: {
-    fontSize: 16,
+    fontSize: 18,
     color: "#fff",
     borderBottomColor: "transparent",
     borderBottomWidth: 2,
+    flex: 1,
+    marginRight: 10,
   },
   noResult: {
     color: "#fff",
