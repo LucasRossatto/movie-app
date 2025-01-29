@@ -35,7 +35,7 @@ export default function RootLayout() {
       />
 
       <Tabs.Screen
-        name="details/[id]"
+        name="details/[movie_id]"
         options={{
           href: null,
         }}
