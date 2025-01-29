@@ -10,7 +10,7 @@ export default function CardHorizontalMovie({ data }: Props) {
         <Link href={`/details/${data.id}`} asChild>
             <TouchableOpacity>
                 <View style={styles.card}>
-                    <Image
+                    <Image   
                         style={styles.posterPath}
                         source={{
                             uri: `https://image.tmdb.org/t/p/w500/${data.backdrop_path}`,

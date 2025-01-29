@@ -34,6 +34,7 @@ export default function Index() {
 
   const searchMovies = async (query: String) => {
     try {
+      setResultMovies([]);
       setLoading(true);
       const response = await api.get("/search/movie", { params: { query } });
       log.info(response.data);

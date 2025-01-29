@@ -16,15 +16,16 @@ export default function RootLayout() {
         }
       }}
     >
-      <Tabs.Screen name="index" options={{
-        tabBarIcon: ({ color }) => (
-          <View style={styles.views}>
-            <MaterialCommunityIcons name="home-outline" size={24} color={color} />
-            <Text style={{ color: color, fontSize: 10, fontWeight: "bold" }}>home</Text>
-          </View>
-        ),
-      }}
-    />
+      <Tabs.Screen name="index"
+        options={{
+          tabBarIcon: ({ color }) => (
+            <View style={styles.views}>
+              <MaterialCommunityIcons name="home-outline" size={24} color={color} />
+              <Text style={{ color: color, fontSize: 10, fontWeight: "bold" }}>home</Text>
+            </View>
+          ),
+        }}
+      />
 
       <Tabs.Screen
         name="search"
