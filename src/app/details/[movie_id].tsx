@@ -68,7 +68,7 @@ export default function TestID() {
       <Header />
       <View style={styles.screenContainer}>
         {loading ? (
-          <ActivityIndicator size={60} color="#F47521" />
+          <ActivityIndicator size={60} color="#F47521"  style={{marginTop:60}}/>
         ) : (
           movie && (
             <View style={styles.movieDetailsWrapper}>

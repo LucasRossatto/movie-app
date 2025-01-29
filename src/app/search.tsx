@@ -65,7 +65,10 @@ export default function Index() {
 
   const renderItem = ({ item }: { item: Movie }) => <SearchCard data={item} />;
 
-  useEffect(() => { }, []);
+  useEffect(() => {
+    setResultMovies([]);
+    setSearch("");
+  }, []);
 
   return (
     <View style={styles.body}>
