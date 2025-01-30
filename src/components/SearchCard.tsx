@@ -3,6 +3,7 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Link } from 'expo-router';
 import { logger } from "react-native-logs";
 import { Props } from "../types/movieTypes";
+import FontAwesome from '@expo/vector-icons/FontAwesome';
 const log = logger.createLogger();
 
 
@@ -20,7 +21,7 @@ export default function SearchCard({ data }: Props) {
                     />
                     <View style={styles.movieInfosContainer}>
                         <Text style={styles.movieTitle}>{data.title}</Text>
-                        <Text style={styles.movieInfo}>{data.vote_average}/10</Text>
+                        <Text style={styles.movieInfo}><FontAwesome name="star" size={14} color="#F47521" /> {data.vote_average}/10</Text>
                     </View>
                 </View>
             </TouchableOpacity>
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
         width: 100,
         flex: 1,
         gap: 52,
-        justifyContent:"center"
+        justifyContent: "center"
     },
     movieTitle: {
         fontSize: 18,
