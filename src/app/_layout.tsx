@@ -1,5 +1,7 @@
 import { Tabs } from "expo-router";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import Octicons from '@expo/vector-icons/Octicons'
+
 import { StyleSheet, Text, View } from "react-native";
 
 export default function RootLayout() {
@@ -20,7 +22,7 @@ export default function RootLayout() {
         options={{
           tabBarIcon: ({ color }) => (
             <View style={styles.views}>
-              <MaterialCommunityIcons name="home-outline" size={24} color={color} />
+              <MaterialCommunityIcons name="home" size={24} color={color} />
               <Text style={{ color: color, fontSize: 10, fontWeight: "bold" }}>home</Text>
             </View>
           ),
@@ -30,7 +32,12 @@ export default function RootLayout() {
       <Tabs.Screen
         name="search"
         options={{
-          href: null,
+          tabBarIcon: ({ color }) => (
+            <View style={styles.views}>
+              <Octicons name="search" size={24} color={color} />
+              <Text style={{ color: color, fontSize: 10, fontWeight: "bold" }}>search</Text>
+            </View>
+          ),
         }}
       />
 

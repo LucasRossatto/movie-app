@@ -21,7 +21,7 @@ export default function SearchCard({ data }: Props) {
                     />
                     <View style={styles.movieInfosContainer}>
                         <Text style={styles.movieTitle}>{data.title}</Text>
-                        <Text style={styles.movieInfo}><FontAwesome name="star" size={14} color="#F47521" /> {data.vote_average}/10</Text>
+                        <Text style={styles.movieInfo}><FontAwesome name="star" size={14} color="#F47521" /> {Number(data.vote_average).toFixed(1)}/10</Text>
                     </View>
                 </View>
             </TouchableOpacity>

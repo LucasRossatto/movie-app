@@ -52,7 +52,7 @@ export default function Index() {
 
   const movieData = search.length > 2 ? resultMovies : movies;
 
-  const renderItem = ({ item }: { item: Movie }) => <SearchCard data={item} />;
+  const renderItem = ({ item }: { item: Movie }) => <SearchCard data={item}/>;
 
 
   useEffect(() => {
@@ -78,8 +78,9 @@ export default function Index() {
         />
         <Octicons name="search" size={24} color="white" />
 
-      </View>
-
+      </View>   
+      <View>
+    </View>
       {noResult && (
         <Text style={styles.noResult}>Nenhum resultado encontrado para "{search}"</Text>
       )}
@@ -90,6 +91,7 @@ export default function Index() {
         style={styles.flatilist}
         data={movieData}
         renderItem={renderItem}
+        keyExtractor={(item) => item.id.toString()}
         onEndReached={() => searchMovies(search)}
         onEndReachedThreshold={0.5}
       />

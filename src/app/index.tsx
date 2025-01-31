@@ -10,8 +10,8 @@ import {
 import { api } from "../services/api";
 import { logger } from "react-native-logs";
 import { Movie } from "../types/movieTypes";
-import CardMovie from "../components/CardMovie";
-import CardHorizontalMovie from "../components/CardHorizontalMovie";
+import CardVertical from "../components/CardVerticalMovie";
+import CardHorizontal from "../components/CardHorizontalMovie";
 import Header from "../components/Header";
 
 const log = logger.createLogger();
@@ -20,6 +20,8 @@ export default function Index() {
   const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
   const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]);
   const [upcomingMovies, setUpcomingMovies] = useState<Movie[]>([]);
+  const [nowPlayingMovies, setNowPlayingMovies] = useState<Movie[]>([]);
+
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
 
@@ -30,7 +32,7 @@ export default function Index() {
       log.info("Filmes carregados com sucesso");
       setData(prevMovies =>
         [...prevMovies, ...response.data.results]);
-      setPage(prevPage => 
+      setPage(prevPage =>
         prevPage + 1);
     } catch (error) {
       log.error("Erro ao carregar filmes", error);
@@ -39,13 +41,15 @@ export default function Index() {
     }
   };
 
-  const renderCardVertical = ({ item }: { item: Movie }) => <CardMovie data={item} />;
-  const renderCardHorizontal = ({ item }: { item: Movie }) => <CardHorizontalMovie data={item} />;
+  const renderCardVertical = ({ item }: { item: Movie }) => <CardVertical data={item} />;
+  const renderCardHorizontal = ({ item }: { item: Movie }) => <CardHorizontal data={item} />;
 
   useEffect(() => {
     loadMovies("/movie/popular", setPopularMovies);
     loadMovies("/movie/upcoming", setUpcomingMovies);
     loadMovies("/movie/top_rated", setTopRatedMovies);
+    loadMovies("/movie/now_playing", setNowPlayingMovies);
+
   }, []);
 
   return (
@@ -82,6 +86,17 @@ export default function Index() {
           renderItem={renderCardVertical}
           keyExtractor={(item) => item.id.toString()}
           onEndReached={() => loadMovies("/movie/top_rated", setTopRatedMovies)}
+          onEndReachedThreshold={0.5}
+        />
+
+        <Text style={styles.sectionTitle}>Filmes em exibição</Text>
+        <FlatList
+          horizontal
+          data={nowPlayingMovies}
+          showsHorizontalScrollIndicator={false}
+          renderItem={renderCardHorizontal}
+          keyExtractor={(item) => item.id.toString()}
+          onEndReached={() => loadMovies("/movie/now_playing", setNowPlayingMovies)}
           onEndReachedThreshold={0.5}
         />
 
