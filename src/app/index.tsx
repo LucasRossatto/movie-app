@@ -28,8 +28,10 @@ export default function Index() {
       setLoading(true);
       const response = await api.get(url, { params: { page } });
       log.info("Filmes carregados com sucesso");
-      setData((prevMovies) => [...prevMovies, ...response.data.results]);
-      setPage((prevPage) => prevPage + 1);
+      setData(prevMovies =>
+        [...prevMovies, ...response.data.results]);
+      setPage(prevPage => 
+        prevPage + 1);
     } catch (error) {
       log.error("Erro ao carregar filmes", error);
     } finally {

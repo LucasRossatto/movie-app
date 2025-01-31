@@ -112,7 +112,7 @@ export default function TestID() {
                 </View>
 
                 <Text style={styles.genreTitle}>Gêneros</Text>
-                {movie.genres && movie.genres.length > 0 && (
+                {movie.genres.length > 0 && (
                   <View style={styles.genreListContainer}>
                     {movie.genres.map((genre) => (
                       <Text key={genre.id} style={styles.genreItem}>
