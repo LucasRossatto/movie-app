@@ -8,6 +8,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import CardHorizontalMovie from '@/src/components/CardHorizontalMovie';
 import HeaderWithBackButton from '@/src/components/HeaderWithBackButton';
+import YoutubeIframe from 'react-native-youtube-iframe';
 
 const log = logger.createLogger();
 
@@ -15,6 +16,7 @@ export default function TestID() {
   const { movie_id } = useLocalSearchParams();
   const [movie, setMovie] = useState<Movie | null>(null);
   const [recomendedMovies, setRecomendedMovies] = useState<Movie[]>([]);
+  const [trailers, setTrailers] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [seeMoreOverView, setSeeMoreOverView] = useState(false);
 
@@ -53,12 +55,30 @@ export default function TestID() {
     }
   };
 
+  const loadMovieVideos = async () => {
+    try {
+      const response = await api.get(`/movie/${movie_id}/videos`);
+      if (!response || !response.data) {
+        log.error("Vídeos inválidos");
+        return;
+      }
+      const trailers = response.data.results.filter(
+        (video: any) => video.type === "Trailer" && video.site === "YouTube"
+      );
+      return trailers;
+    } catch (error) {
+      log.error("Erro ao carregar vídeos", error);
+      return [];
+    }
+  };
+
   const renderCardHorizontal = ({ item }: { item: Movie }) => <CardHorizontalMovie data={item} />;
 
   useEffect(() => {
     if (movie_id) {
       loadMovieInfos();
       loadRecomendedMovies();
+      loadMovieVideos().then((trailers) => setTrailers(trailers || []));
     }
     setSeeMoreOverView(false);
   }, [movie_id]);
@@ -68,7 +88,7 @@ export default function TestID() {
       <HeaderWithBackButton />
       <View style={styles.screenContainer}>
         {loading ? (
-          <ActivityIndicator size={60} color="#F47521"  style={{marginTop:60}}/>
+          <ActivityIndicator size={60} color="#F47521" style={{ marginTop: 60 }} />
         ) : (
           movie && (
             <View style={styles.movieDetailsWrapper}>
@@ -87,19 +107,16 @@ export default function TestID() {
               <View style={styles.movieInfoContainer}>
                 <Text style={styles.movieTitle}>{movie.title}</Text>
                 <View style={styles.ratingAndViewsContainer}>
-
                   <View style={styles.ratingContainer}>
                     <FontAwesome name="star" size={18} color="#F47521" />
                     <Text style={styles.ratingText}>{Number(movie.vote_average).toFixed(1)}/10</Text>
                   </View>
-
                   <View style={styles.viewsContainer}>
                     <MaterialCommunityIcons name="eye-outline" size={20} color="#F47521" />
                     <Text style={styles.viewsText}>{Number(movie.popularity).toFixed(1)}K </Text>
                     <Text style={styles.viewsLabel}>de Visualizações</Text>
                   </View>
                 </View>
-
                 <View style={styles.overviewContainer}>
                   <Text style={styles.overviewText} numberOfLines={seeMoreOverView ? undefined : 3}>
                     {movie.overview}
@@ -122,6 +139,18 @@ export default function TestID() {
                   </View>
                 )}
               </View>
+              <View style={styles.trailerContainer}>
+                <Text style={styles.sectionTitle}>Trailer</Text>
+                {trailers.length > 0 ? (
+                  <YoutubeIframe
+                    height={200}
+                    videoId={trailers[0].key}
+                    play={false}
+                  />
+                ) : (
+                  <Text style={styles.noTrailerText}>Nenhum trailer disponível.</Text>
+                )}
+              </View>
               <View style={styles.recomendedContainer}>
                 <Text style={styles.sectionTitle}>Recomendações</Text>
                 <FlatList
@@ -135,7 +164,6 @@ export default function TestID() {
             </View>
           )
         )}
-
       </View>
     </ScrollView>
   );
@@ -238,7 +266,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 12,
     fontWeight: "bold",
-    marginBottom:10,
+    marginBottom: 10,
   },
   recomendedContainer: {
     flex: 1,
@@ -250,5 +278,14 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
     alignSelf: "flex-start"
+  },
+  trailerContainer: {
+    marginHorizontal: 30,
+    marginVertical: 20,
+  },
+  noTrailerText: {
+    color: "#fff",
+    fontSize: 16,
+    textAlign: "center",
   },
 });
