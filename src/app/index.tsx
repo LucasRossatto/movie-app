@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useCallback, useMemo } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -7,50 +7,28 @@ import {
   Text,
   View,
 } from "react-native";
-import { api } from "../services/api";
 import { logger } from "react-native-logs";
 import { Movie } from "../types/movieTypes";
 import CardVertical from "../components/CardVerticalMovie";
 import CardHorizontal from "../components/CardHorizontalMovie";
 import Header from "../components/Header";
+import { useMovies } from "../hooks/useMovies";
 
 const log = logger.createLogger();
 
 export default function Index() {
-  const [popularMovies, setPopularMovies] = useState<Movie[]>([]);
-  const [topRatedMovies, setTopRatedMovies] = useState<Movie[]>([]);
-  const [upcomingMovies, setUpcomingMovies] = useState<Movie[]>([]);
-  const [nowPlayingMovies, setNowPlayingMovies] = useState<Movie[]>([]);
+  const { movies: popularMovies, loading: loadingPopular, loadMovies: loadPopularMovies } = useMovies("/movie/popular");
+  const { movies: upcomingMovies, loading: loadingUpcoming, loadMovies: loadUpcomingMovies } = useMovies("/movie/upcoming");
+  const { movies: topRatedMovies, loading: loadingTopRated, loadMovies: loadTopRatedMovies } = useMovies("/movie/top_rated");
+  const { movies: nowPlayingMovies, loading: loadingNowPlaying, loadMovies: loadNowPlayingMovies } = useMovies("/movie/now_playing");
 
-  const [loading, setLoading] = useState(false);
-  const [page, setPage] = useState(1);
+  const renderCardVertical = useCallback(({ item }: { item: Movie }) => <CardVertical data={item} />, []);
+  const renderCardHorizontal = useCallback(({ item }: { item: Movie }) => <CardHorizontal data={item} />, []);
 
-  const loadMovies = async (url: string, setData: React.Dispatch<React.SetStateAction<Movie[]>>) => {
-    try {
-      setLoading(true);
-      const response = await api.get(url, { params: { page } });
-      log.info("Filmes carregados com sucesso");
-      setData(prevMovies =>
-        [...prevMovies, ...response.data.results]);
-      setPage(prevPage =>
-        prevPage + 1);
-    } catch (error) {
-      log.error("Erro ao carregar filmes", error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const renderCardVertical = ({ item }: { item: Movie }) => <CardVertical data={item} />;
-  const renderCardHorizontal = ({ item }: { item: Movie }) => <CardHorizontal data={item} />;
-
-  useEffect(() => {
-    loadMovies("/movie/popular", setPopularMovies);
-    loadMovies("/movie/upcoming", setUpcomingMovies);
-    loadMovies("/movie/top_rated", setTopRatedMovies);
-    loadMovies("/movie/now_playing", setNowPlayingMovies);
-
-  }, []);
+  const memoizedPopularMovies = useMemo(() => popularMovies, [popularMovies]);
+  const memoizedUpcomingMovies = useMemo(() => upcomingMovies, [upcomingMovies]);
+  const memoizedTopRatedMovies = useMemo(() => topRatedMovies, [topRatedMovies]);
+  const memoizedNowPlayingMovies = useMemo(() => nowPlayingMovies, [nowPlayingMovies]);
 
   return (
     <ScrollView style={styles.screenBackground}>
@@ -59,48 +37,62 @@ export default function Index() {
         <Text style={styles.sectionTitle}>Mais Populares</Text>
         <FlatList
           horizontal
-          data={popularMovies}
+          data={memoizedPopularMovies}
           showsHorizontalScrollIndicator={false}
           renderItem={renderCardVertical}
           keyExtractor={(item) => item.id.toString()}
-          onEndReached={() => loadMovies("/movie/popular", setPopularMovies)}
+          onEndReached={loadPopularMovies}
           onEndReachedThreshold={0.5}
+          ListFooterComponent={loadingPopular ? <ActivityIndicator size={60} color="#F47521" /> : null}
+          ListFooterComponentStyle={styles.loadingIndicator}
+          initialNumToRender={5}
+          windowSize={5}
         />
 
         <Text style={styles.sectionTitle}>Próximos Lançamentos</Text>
         <FlatList
           horizontal
-          data={upcomingMovies}
+          data={memoizedUpcomingMovies}
           showsHorizontalScrollIndicator={false}
           renderItem={renderCardHorizontal}
           keyExtractor={(item) => item.id.toString()}
-          onEndReached={() => loadMovies("/movie/upcoming", setUpcomingMovies)}
+          onEndReached={loadUpcomingMovies}
           onEndReachedThreshold={0.5}
+          ListFooterComponent={loadingUpcoming ? <ActivityIndicator size={60} color="#F47521" /> : null}
+          ListFooterComponentStyle={styles.loadingIndicator}
+          initialNumToRender={5}
+          windowSize={5}
         />
 
         <Text style={styles.sectionTitle}>Mais Bem Avaliados</Text>
         <FlatList
           horizontal
-          data={topRatedMovies}
+          data={memoizedTopRatedMovies}
           showsHorizontalScrollIndicator={false}
           renderItem={renderCardVertical}
           keyExtractor={(item) => item.id.toString()}
-          onEndReached={() => loadMovies("/movie/top_rated", setTopRatedMovies)}
+          onEndReached={loadTopRatedMovies}
           onEndReachedThreshold={0.5}
+          ListFooterComponent={loadingTopRated ? <ActivityIndicator size={60} color="#F47521" /> : null}
+          ListFooterComponentStyle={styles.loadingIndicator}
+          initialNumToRender={5}
+          windowSize={5}
         />
 
         <Text style={styles.sectionTitle}>Filmes em exibição</Text>
         <FlatList
           horizontal
-          data={nowPlayingMovies}
+          data={memoizedNowPlayingMovies}
           showsHorizontalScrollIndicator={false}
           renderItem={renderCardHorizontal}
           keyExtractor={(item) => item.id.toString()}
-          onEndReached={() => loadMovies("/movie/now_playing", setNowPlayingMovies)}
+          onEndReached={loadNowPlayingMovies}
           onEndReachedThreshold={0.5}
+          ListFooterComponent={loadingNowPlaying ? <ActivityIndicator size={60} color="#F47521" /> : null}
+          ListFooterComponentStyle={styles.loadingIndicator}
+          initialNumToRender={5}
+          windowSize={5}
         />
-
-        {loading && <ActivityIndicator size={60} color="#F47521" />}
       </View>
     </ScrollView>
   );
@@ -122,6 +114,8 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   loadingIndicator: {
-    marginVertical: 20,
+    justifyContent: "center",
+    alignItems: "center", 
+    paddingVertical: 20,
   },
 });
