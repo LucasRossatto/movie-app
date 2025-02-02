@@ -4,10 +4,10 @@ import { View, Text, StyleSheet, ActivityIndicator, Image, ScrollView, ImageBack
 import { logger } from "react-native-logs";
 import { api } from "@/src/services/api";
 import { Movie } from '@/src/types/movieTypes';
-import Header from '@/src/components/Header';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import CardHorizontalMovie from '@/src/components/CardHorizontalMovie';
+import HeaderWithBackButton from '@/src/components/HeaderWithBackButton';
 
 const log = logger.createLogger();
 
@@ -65,7 +65,7 @@ export default function TestID() {
 
   return (
     <ScrollView style={{ backgroundColor: "#000000" }}>
-      <Header />
+      <HeaderWithBackButton />
       <View style={styles.screenContainer}>
         {loading ? (
           <ActivityIndicator size={60} color="#F47521"  style={{marginTop:60}}/>

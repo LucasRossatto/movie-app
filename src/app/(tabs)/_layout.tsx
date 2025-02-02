@@ -1,10 +1,8 @@
 import { Tabs } from "expo-router";
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import Octicons from '@expo/vector-icons/Octicons'
-
 import { StyleSheet, Text, View } from "react-native";
 
-export default function RootLayout() {
+export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
@@ -13,12 +11,13 @@ export default function RootLayout() {
         tabBarActiveTintColor: "#F47521",
         tabBarInactiveTintColor: "#636882",
         tabBarStyle: {
-          backgroundColor: '#18191E',
+          backgroundColor: "#18191E",
           borderTopWidth: 0,
         }
       }}
     >
-      <Tabs.Screen name="index"
+      <Tabs.Screen 
+        name="index"
         options={{
           tabBarIcon: ({ color }) => (
             <View style={styles.views}>
@@ -28,27 +27,8 @@ export default function RootLayout() {
           ),
         }}
       />
-
-      <Tabs.Screen
-        name="search"
-        options={{
-          tabBarIcon: ({ color }) => (
-            <View style={styles.views}>
-              <Octicons name="search" size={24} color={color} />
-              <Text style={{ color: color, fontSize: 10, fontWeight: "bold" }}>search</Text>
-            </View>
-          ),
-        }}
-      />
-
-      <Tabs.Screen
-        name="details/[movie_id]"
-        options={{
-          href: null,
-        }}
-      />
     </Tabs>
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -57,5 +37,5 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     width: 80,
     marginTop: 10,
-  }
+  },
 });

@@ -3,8 +3,10 @@ import { ActivityIndicator, FlatList, StyleSheet, Text, TextInput, View, Touchab
 import { api } from "@/src/services/api";
 import { logger } from "react-native-logs";
 import { Movie } from "@/src/types/movieTypes";
-import SearchCard from "../components/SearchCard";
+import SearchCard from "../../components/SearchCard";
 import Octicons from "@expo/vector-icons/Octicons";
+import AntDesign from "@expo/vector-icons/AntDesign";
+import { useRouter } from "expo-router";
 
 var log = logger.createLogger();
 
@@ -58,10 +60,16 @@ export default function Index() {
   }, [search]);
 
   const renderItem = ({ item }: { item: Movie }) => <SearchCard data={item} />;
+  const router = useRouter();
 
   return (
     <View style={styles.body}>
       <View style={styles.inputContainer}>
+        <TouchableOpacity onPress={() => router.back()} style={{ flexDirection: "row", gap: 10, alignItems: "center" }}>
+          <View style={styles.iconBackground}>
+            <AntDesign name="left" size={20} color="white" />
+          </View>
+        </TouchableOpacity>
         <TextInput
           placeholder="Buscar"
           placeholderTextColor={"#fff"}
@@ -75,7 +83,6 @@ export default function Index() {
             isFocused && { borderBottomColor: "#F47521", borderBottomWidth: 1.5 },
           ]}
         />
-        <Octicons name="search" size={24} color="white" />
       </View>
 
       {error && (
@@ -120,7 +127,7 @@ const styles = StyleSheet.create({
   },
   inputContainer: {
     backgroundColor: "#18191E",
-    paddingHorizontal: 30,
+    paddingRight: 30,
     paddingVertical: 10,
     flexDirection: "row",
     alignItems: "center",
@@ -132,7 +139,6 @@ const styles = StyleSheet.create({
     borderBottomColor: "transparent",
     borderBottomWidth: 2,
     flex: 1,
-    marginRight: 10,
   },
   noResult: {
     color: "#fff",
@@ -160,5 +166,12 @@ const styles = StyleSheet.create({
   },
   loadingIndicator: {
     marginTop: 20,
+  },
+  iconBackground: {
+    padding: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 10,
+    marginRight: 0,
   },
 });

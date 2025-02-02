@@ -1,16 +1,17 @@
 import Octicons from '@expo/vector-icons/Octicons'
-import { Link } from 'expo-router'
+import { Link, useRouter } from 'expo-router'
 import React from 'react'
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 export default function Header() {
+    const router = useRouter();
     return (
         <View style={styles.header}>
             <Text style={styles.title}>MyMovieList</Text>
-            <Link href="/search" asChild>
-                <Octicons name="search" size={24} color="white" />
-            </Link>
-        </View>)
+            <TouchableOpacity style={styles.iconBackground} onPress={() => router.push("/search")}>
+            <Octicons name="search" size={18} color="white" />
+            </TouchableOpacity>
+            </View>)
 }
 
 const styles = StyleSheet.create({
@@ -26,5 +27,12 @@ const styles = StyleSheet.create({
         fontSize: 22,
         fontWeight: "bold",
         color: "#F47521",
+    },
+    iconBackground: {
+        backgroundColor: 'rgba(255, 255, 255, 0.1)', // 10% de opacidade
+        borderRadius: 50,
+        padding: 12,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 })

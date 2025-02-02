@@ -1,3 +1,6 @@
+import Header from "@/src/components/Header";
+import { useMovies } from "@/src/hooks/useMovies";
+import { Movie } from "@/src/types/movieTypes";
 import React, { useCallback, useMemo } from "react";
 import {
   ActivityIndicator,
@@ -8,11 +11,8 @@ import {
   View,
 } from "react-native";
 import { logger } from "react-native-logs";
-import { Movie } from "../types/movieTypes";
-import CardVertical from "../components/CardVerticalMovie";
-import CardHorizontal from "../components/CardHorizontalMovie";
-import Header from "../components/Header";
-import { useMovies } from "../hooks/useMovies";
+import CardVertical from "../../components/CardVerticalMovie";
+import CardHorizontal from "../../components/CardVerticalMovie";
 
 const log = logger.createLogger();
 
