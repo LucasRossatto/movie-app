@@ -159,6 +159,7 @@ export default function TestID() {
                     <Text style={styles.viewsLabel}>de Visualizações</Text>
                   </View>
                 </View>
+                <Text style={styles.genreTitle}>Sinopse</Text>
                 <View style={styles.overviewContainer}>
                   <Text style={styles.overviewText} numberOfLines={seeMoreOverView ? undefined : 3}>
                     {movie.overview}
@@ -180,13 +181,15 @@ export default function TestID() {
                     ))}
                   </View>
                 )}
-                <View style={{marginTop:20}}>
+
+                <View style={styles.statusContainer}>
                   <Text style={styles.genreTitle}>Estado</Text>
-                  <Text style={styles.genreItem}>
+                  <Text style={styles.statusText}>
                     {statusToPtBR(movie.status)}
                   </Text>
                 </View>
               </View>
+
               <View style={styles.trailerContainer}>
                 <Text style={styles.sectionTitle}>Trailer</Text>
                 {trailers.length > 0 ? (
@@ -215,7 +218,7 @@ export default function TestID() {
 
               <View style={styles.recomendedContainer}>
                 <Text style={styles.sectionTitle}>Recomendações</Text>
-                {recomendedMovies.length < 0 ? (
+                {recomendedMovies.length > 0 ? (
                   <FlatList
                     horizontal
                     data={recomendedMovies}
@@ -224,7 +227,7 @@ export default function TestID() {
                     keyExtractor={(item) => item.id.toString()}
                   />
                 ) : (
-                  <Text style={styles.noResult}>Nenhuma Recomedação disponível disponível.</Text>
+                  <Text style={styles.noResult}>Nenhuma recomendação disponível.</Text>
                 )}
               </View>
             </View>
@@ -276,6 +279,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     marginTop: 5,
     width: 160,
+    marginBottom: 10,
   },
   ratingContainer: {
     flexDirection: "row",
@@ -300,7 +304,6 @@ const styles = StyleSheet.create({
     color: "#dadada",
   },
   overviewContainer: {
-    marginVertical: 20,
   },
   overviewText: {
     color: "#fff",
@@ -311,7 +314,7 @@ const styles = StyleSheet.create({
     color: "#F47521",
     fontSize: 14,
     fontWeight: "bold",
-    marginTop: 10,
+    marginVertical: 10,
     textAlign: "left"
   },
   genreListContainer: {
@@ -334,6 +337,22 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 10,
   },
+  statusContainer: {
+    marginTop: 20,
+  },
+  statusText: {
+    color: "#F47521",
+    fontSize: 14,
+    fontWeight: "bold",
+    backgroundColor: "rgba(255, 255, 255, 0.1)",
+    paddingHorizontal: 5,
+    paddingVertical: 5,
+
+    borderRadius: 5,
+    alignSelf: 'flex-start',
+
+  },
+
   recomendedContainer: {
     flex: 1,
     paddingHorizontal: 30,
@@ -353,7 +372,7 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 16,
     textAlign: "center",
-    marginVertical: 30
+    marginVertical: 30,
   },
   collectionContainer: {
     flex: 1,
