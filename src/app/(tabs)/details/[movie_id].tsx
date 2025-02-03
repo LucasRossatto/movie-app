@@ -9,6 +9,7 @@ import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import CardHorizontalMovie from '@/src/components/CardHorizontalMovie';
 import HeaderWithBackButton from '@/src/components/HeaderWithBackButton';
 import YoutubeIframe from 'react-native-youtube-iframe';
+import CardVerticalMovie from '@/src/components/CardVerticalMovie';
 
 const log = logger.createLogger();
 
@@ -17,6 +18,7 @@ export default function TestID() {
   const [movie, setMovie] = useState<Movie | null>(null);
   const [recomendedMovies, setRecomendedMovies] = useState<Movie[]>([]);
   const [trailers, setTrailers] = useState<any[]>([]);
+  const [collection, setCollection] = useState<any>(null);
   const [loading, setLoading] = useState(false);
   const [seeMoreOverView, setSeeMoreOverView] = useState(false);
 
@@ -72,7 +74,39 @@ export default function TestID() {
     }
   };
 
+  const loadMovieCollection = async (collectionId: number) => {
+    try {
+      const response = await api.get(`/collection/${collectionId}`);
+      if (!response || !response.data) {
+        log.error("Coleção inválida");
+        return null;
+      }
+      return response.data;
+    } catch (error) {
+      log.error("Erro ao carregar coleção", error);
+      return null;
+    }
+  };
+
   const renderCardHorizontal = ({ item }: { item: Movie }) => <CardHorizontalMovie data={item} />;
+  const renderCardVertical = ({ item }: { item: Movie }) => <CardVerticalMovie data={item} />;
+
+  const statusToPtBR = (status: string) => {
+    switch (status) {
+      case 'Released':
+        return 'Lançado';
+      case 'Post Production':
+        return 'Pós-produção';
+      case 'In Production':
+        return 'Em produção';
+      case 'Planned':
+        return 'Planejado';
+      case 'Canceled':
+        return 'Cancelado';
+      default:
+        return status;
+    }
+  };
 
   useEffect(() => {
     if (movie_id) {
@@ -82,6 +116,14 @@ export default function TestID() {
     }
     setSeeMoreOverView(false);
   }, [movie_id]);
+
+  useEffect(() => {
+    if (movie && movie.belongs_to_collection) {
+      loadMovieCollection(movie.belongs_to_collection.id).then((collection) =>
+        setCollection(collection)
+      );
+    }
+  }, [movie]);
 
   return (
     <ScrollView style={{ backgroundColor: "#000000" }}>
@@ -138,6 +180,12 @@ export default function TestID() {
                     ))}
                   </View>
                 )}
+                <View style={{marginTop:20}}>
+                  <Text style={styles.genreTitle}>Estado</Text>
+                  <Text style={styles.genreItem}>
+                    {statusToPtBR(movie.status)}
+                  </Text>
+                </View>
               </View>
               <View style={styles.trailerContainer}>
                 <Text style={styles.sectionTitle}>Trailer</Text>
@@ -148,18 +196,36 @@ export default function TestID() {
                     play={false}
                   />
                 ) : (
-                  <Text style={styles.noTrailerText}>Nenhum trailer disponível.</Text>
+                  <Text style={styles.noResult}>Nenhum trailer disponível.</Text>
                 )}
               </View>
+
+              {collection && (
+                <View style={styles.collectionContainer}>
+                  <Text style={styles.sectionTitle}>{collection.name}</Text>
+                  <FlatList
+                    horizontal
+                    data={collection.parts}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={renderCardVertical}
+                    keyExtractor={(item) => item.id.toString()}
+                  />
+                </View>
+              )}
+
               <View style={styles.recomendedContainer}>
                 <Text style={styles.sectionTitle}>Recomendações</Text>
-                <FlatList
-                  horizontal
-                  data={recomendedMovies}
-                  showsHorizontalScrollIndicator={false}
-                  renderItem={renderCardHorizontal}
-                  keyExtractor={(item) => item.id.toString()}
-                />
+                {recomendedMovies.length < 0 ? (
+                  <FlatList
+                    horizontal
+                    data={recomendedMovies}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={renderCardHorizontal}
+                    keyExtractor={(item) => item.id.toString()}
+                  />
+                ) : (
+                  <Text style={styles.noResult}>Nenhuma Recomedação disponível disponível.</Text>
+                )}
               </View>
             </View>
           )
@@ -283,9 +349,15 @@ const styles = StyleSheet.create({
     marginHorizontal: 30,
     marginVertical: 20,
   },
-  noTrailerText: {
+  noResult: {
     color: "#fff",
     fontSize: 16,
     textAlign: "center",
+    marginVertical: 30
+  },
+  collectionContainer: {
+    flex: 1,
+    paddingHorizontal: 30,
+    marginBottom: 20,
   },
 });

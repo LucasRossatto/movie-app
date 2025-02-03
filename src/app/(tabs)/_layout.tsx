@@ -16,7 +16,7 @@ export default function TabsLayout() {
         }
       }}
     >
-      <Tabs.Screen 
+      <Tabs.Screen
         name="index"
         options={{
           tabBarIcon: ({ color }) => (
@@ -25,6 +25,12 @@ export default function TabsLayout() {
               <Text style={{ color: color, fontSize: 10, fontWeight: "bold" }}>home</Text>
             </View>
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="details/[movie_id]"
+        options={{
+          href: null,
         }}
       />
     </Tabs>

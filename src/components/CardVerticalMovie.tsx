@@ -5,7 +5,7 @@ import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
 import { Props } from "../types/movieTypes";
 
-export default function CardMovie({ data }: Props) {
+export default function CardVerticalMovie({ data }: Props) {
     return (
         <Link href={`/details/${data.id}`} asChild>
             <TouchableOpacity>
