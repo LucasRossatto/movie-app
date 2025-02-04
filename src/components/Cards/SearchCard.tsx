@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Link } from 'expo-router';
 import { logger } from "react-native-logs";
-import { Props } from "../types/movieTypes";
+import { Props } from "../../types/movieTypes";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 const log = logger.createLogger();
 

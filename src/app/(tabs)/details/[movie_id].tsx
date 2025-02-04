@@ -6,10 +6,10 @@ import { api } from "@/src/services/api";
 import { Movie } from '@/src/types/movieTypes';
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import CardHorizontalMovie from '@/src/components/CardHorizontalMovie';
-import HeaderWithBackButton from '@/src/components/HeaderWithBackButton';
+import CardHorizontalMovie from '@/src/components/Cards/CardHorizontalMovie';
+import HeaderWithBackButton from '@/src/components/Headers/HeaderWithBackButton';
 import YoutubeIframe from 'react-native-youtube-iframe';
-import CardVerticalMovie from '@/src/components/CardVerticalMovie';
+import CardVerticalMovie from '@/src/components/Cards/CardVerticalMovie';
 
 const log = logger.createLogger();
 

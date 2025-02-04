@@ -1,19 +1,19 @@
 import React from 'react';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { Link } from 'expo-router';
+import { Props } from "../../types/movieTypes";
 import FontAwesome from '@expo/vector-icons/FontAwesome';
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
-import { Props } from "../types/movieTypes";
 
-export default function CardVerticalMovie({ data }: Props) {
+export default function CardHorizontalMovie({ data }: Props) {
     return (
         <Link href={`/details/${data.id}`} asChild>
             <TouchableOpacity>
                 <View style={styles.card}>
-                    <Image
+                    <Image   
                         style={styles.posterPath}
                         source={{
-                            uri: `https://image.tmdb.org/t/p/w500/${data.poster_path}`,
+                            uri: `https://image.tmdb.org/t/p/w500/${data.backdrop_path}`,
                         }}
                     />
                     <Text style={styles.cardTitle}>{data.title}</Text>
@@ -36,8 +36,9 @@ export default function CardVerticalMovie({ data }: Props) {
 
 const styles = StyleSheet.create({
     posterPath: {
-        width: 170,
-        height: 255,
+        width: 260,
+        height: 173,
+
     },
     card: {
         marginRight: 10,
@@ -47,20 +48,18 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: "#fff",
         width: 160,
-        justifyContent: "center",
-        fontWeight: "bold",
+        fontWeight: 'bold',
         marginTop: 10,
     },
     cardInfo: {
-        flexDirection: "row",
-        gap:10,
-        alignItems: "center",
-        marginTop: 5,
+        flexDirection: 'row',
+        gap: 10,
         width: 160,
+        marginTop: 5,
     },
     infoItem: {
-        flexDirection: "row",
-        alignItems: "center",
+        flexDirection: 'row',
+        alignItems: 'center',
     },
     infoText: {
         fontSize: 10,

@@ -3,7 +3,7 @@ import { ActivityIndicator, FlatList, StyleSheet, Text, TextInput, View, Touchab
 import { api } from "@/src/services/api";
 import { logger } from "react-native-logs";
 import { Movie } from "@/src/types/movieTypes";
-import SearchCard from "../../components/SearchCard";
+import SearchCard from "../../components/Cards/SearchCard";
 import Octicons from "@expo/vector-icons/Octicons";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useRouter } from "expo-router";
