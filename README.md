@@ -1,6 +1,8 @@
 # My Movie List
 
-My Movie List é um aplicativo inspirado no My Anime List, desenvolvido em React Native com TypeScript. Ele utiliza a API do TMDB para fornecer informações detalhadas sobre filmes, incluindo pesquisa, visualização dinâmica de detalhes, trailers, descrições, imagens, gêneros, coleções e filmes recomendados.
+[![movie-app-banner.png](https://i.postimg.cc/VNV1FKDW/movie-app-banner.png)](https://postimg.cc/1gwLmrx8)
+
+My Movie List é um aplicativo inspirado no My Anime List e na Crunchyroll, desenvolvido em React Native e TypeScript. Ele utiliza a API do TMDB para fornecer informações detalhadas sobre filmes, incluindo pesquisa, visualização dinâmica de detalhes, trailers, descrições, imagens, gêneros, coleções e filmes recomendados. E expo-constants para fazer o papel do dotenv
 
 ## Índice
 
