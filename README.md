@@ -43,11 +43,11 @@ Siga esses passos para configurar o projeto localmente:
 
 1. **Clone o repositório**:
    ```bash
-   git clone https://github.com/seu-usuario/my-movie-list.git
+   git clone https://github.com/LucasRossatto/movie-app.git
    ```
 2. **Navegue até o diretório do projeto**:
    ```bash
-   cd my-movie-list
+   cd movie-app
    ```
 3. **Instale as dependências**:
    ```bash
