@@ -12,7 +12,7 @@ import {
 } from "react-native";
 import { logger } from "react-native-logs";
 import CardVertical from "../../components/Cards/CardVerticalMovie";
-import CardHorizontal from "../../components/Cards/CardVerticalMovie";
+import CardHorizontal from "../../components/Cards/CardHorizontalMovie";
 
 const log = logger.createLogger();
 

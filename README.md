@@ -95,6 +95,11 @@ Siga esses passos para configurar o projeto localmente:
   - Coleções (se o filme fizer parte de uma).
   - Filmes recomendados.
 
+```bash
+npm run reset-project
+```
+
+=======
 ### Explorar Filmes Recomendados:
 
 - Na página de detalhes, role até a seção "Filmes Recomendados" para descobrir filmes semelhantes.
