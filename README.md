@@ -126,5 +126,5 @@ Este projeto está licenciado sob a licença MIT. Veja o arquivo [LICENSE](LICEN
 
 Se tiver dúvidas ou sugestões, entre em contato:
 
-- **LinkedIn**: [LucasRossatto](www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=lucasrossatto)
+- **LinkedIn**: [[LucasRossatto](www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=lucasrossatto)](https://www.linkedin.com/in/lucasrossatto/)
 
