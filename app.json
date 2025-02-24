@@ -36,6 +36,9 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "TMDB_API_KEY": "1044c4fe22053f24519e99e6e5874882"
     }
   }
 }
