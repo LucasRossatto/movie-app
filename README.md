@@ -35,6 +35,7 @@ O **My Movie List** é um aplicativo móvel que permite aos usuários explorar f
 - **TypeScript**: Adiciona tipagem estática ao JavaScript para maior segurança e produtividade.
 - **Axios**: Cliente HTTP para fazer requisições à API do TMDB.
 - **Expo**: Plataforma para facilitar o desenvolvimento e teste de aplicativos React Native.
+- **expo-constants**: Utilizado para acessar configurações do aplicativo, como variáveis de ambiente. (semelhante ao dotenv)
 - **API do TMDB**: Fonte de dados para informações sobre filmes.
 
 ## Instalação
@@ -54,10 +55,15 @@ Siga esses passos para configurar o projeto localmente:
    npm install
    ```
 4. **Configure a API do TMDB**:
-   - Crie um arquivo `.env` na raiz do projeto.
-   - Adicione sua chave da API do TMDB no arquivo `.env`:
-     ```env
-     TMDB_API_KEY=sua_chave_aqui
+   - O aplicativo utiliza `expo-constants` para acessar a chave da API do TMDB configurada no `app.json`. Certifique-se de que seu arquivo `app.json` contém a seguinte estrutura:
+     ```json
+     {
+       "expo": {
+         "extra": {
+           "TMDB_API_KEY": "sua_chave_aqui"
+         }
+       }
+     }
      ```
    - Nota: Obtenha uma chave de API gratuita no site do TMDB.
 5. **Inicie o servidor de desenvolvimento**:
@@ -128,4 +134,7 @@ Se tiver dúvidas ou sugestões, entre em contato:
 
 - **LinkedIn**:
 Siga-me no [LinkedIn](https://www.linkedin.com/comm/mynetwork/discovery-see-all?usecase=PEOPLE_FOLLOWS&followMember=lucasrossatto).
+
+- **UI/Protótipo**:
+[Figma](https://www.figma.com/design/jfRc9kOXkYqylBtoQu3csR/mymovielist-ui-app-mobile?m=auto&t=Hd83E006IpoxmhXO-6)
 
